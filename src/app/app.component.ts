@@ -7,13 +7,15 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, RouterModule],
   template: `
-    <header class="p-2 shadow shadow-accent">
-      <nav>
-        <a routerLink="/" class="hover:text-primary">Home</a>
-      </nav>
-    </header>
-    <main class="p-2">
-      <router-outlet />
+    <main class="min-h-screen">
+      <header class="p-2 shadow shadow-accent border-b">
+        <nav>
+          <a routerLink="/" class="text-primary hover:opacity-80 font-bold"
+            >Angular!</a
+          >
+        </nav>
+      </header>
+      <section class="p-2"><router-outlet /></section>
     </main>
   `,
 })
