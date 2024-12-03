@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { UserListComponent } from './pages/user-list/user-list.component';
-import { UserDetailComponent } from './pages/user-detail/user-detail.component';
+import { UserDetailComponent } from '~/app/pages/user-detail/user-detail.component';
+import { UserListComponent } from '~/app/pages/user-list/user-list.component';
 
 export const routes: Routes = [
   { path: ':userId', pathMatch: 'full', component: UserDetailComponent },

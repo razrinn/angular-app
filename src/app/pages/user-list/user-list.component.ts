@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserRowComponent } from '../../components/user-row/user-row.component';
-import { UserService } from '../../services/user.service';
-import { User } from '../../app.types';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Eye as EyeIcon } from 'lucide-angular';
+import { User } from '~/app/app.types';
+import { UserService } from '~/app/services/user.service';
 
 interface UsersRequest {
   users: User[] | null;
@@ -28,57 +27,62 @@ interface UsersRequest {
             <strong class="font-bold">Error: </strong>
             <span class="block sm:inline">{{ state.error }}</span>
           </div>
-        }
-
-        <table class="w-full overflow-auto border table-fixed">
-          <thead>
-            <tr class="bg-primary-foreground">
-              <th class="text-left px-2 w-[30%]">Name</th>
-              <th class="text-left px-2 w-[30%]">Email</th>
-              <th class="text-left px-2 w-[30%]">Website</th>
-              <th class="px-2 w-[32px]"></th>
-            </tr>
-          </thead>
-          <tbody>
-            @if (state.loading) {
-              @for (_ of skeletonRows; track $index) {
-                <tr class="animate-pulse">
-                  <td [colSpan]="5" class="h-[26px] px-2">
-                    <div class="h-4 bg-gray-300 rounded w-full"></div>
-                  </td>
-                </tr>
-              }
-            } @else {
-              @for (user of state.users; track user.id; let i = $index) {
-                <tr class="border-b">
-                  <td class="px-2 whitespace-nowrap">{{ user.name }}</td>
-                  <td class="px-2 whitespace-nowrap">{{ user.email }}</td>
-                  <td class="px-2">
-                    <a
-                      href="https://{{ user.website }}"
-                      target="_blank"
-                      class="text-primary hover:opacity-80"
-                    >
-                      {{ user.website }}</a
-                    >
-                  </td>
-                  <td class="px-2 w-[32px]">
-                    <a routerLink="/{{ user.id }}">
-                      <div
-                        class="border flex items-center justify-center rounded hover:opacity-80"
+        } @else {
+          <table class="w-full overflow-auto border">
+            <thead>
+              <tr class="bg-primary-foreground">
+                <th class="text-left px-2 w-[30%]">Name</th>
+                <th class="text-left px-2 w-[30%]">Email</th>
+                <th class="text-left px-2 w-[30%]">Website</th>
+                <th class="px-2 w-[32px]"></th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (state.loading) {
+                @for (_ of skeletonRows; track $index) {
+                  <tr class="animate-pulse">
+                    <td [colSpan]="5" class="h-[27px] px-2">
+                      <div class="h-4 bg-gray-300 animate-pulse rounded w-full"></div>
+                    </td>
+                  </tr>
+                }
+              } @else {
+                @for (user of state.users; track user.id) {
+                  <tr
+                    class="border-b hover:bg-primary-foreground cursor-pointer"
+                    routerLink="/{{ user.id }}"
+                  >
+                    <td class="px-2 whitespace-nowrap">{{ user.name }}</td>
+                    <td class="px-2 whitespace-nowrap">{{ user.email }}</td>
+                    <td class="px-2">
+                      <a
+                        href="https://{{ user.website }}"
+                        target="_blank"
+                        class="text-primary hover:opacity-80"
                       >
-                        <lucide-icon
-                          [img]="EyeIcon"
-                          class="text-zinc-500 w-4 h-4"
-                        ></lucide-icon>
+                        {{ user.website }}</a
+                      >
+                    </td>
+                    <td class="px-2 w-[32px]">
+                      <div class="flex w-full justify-end">
+                        <div
+                          class="border flex items-center justify-end rounded hover:opacity-8 p-1"
+                        >
+                          <a routerLink="/{{ user.id }}">
+                            <lucide-icon
+                              [img]="EyeIcon"
+                              class="text-zinc-500 w-3 h-3"
+                            ></lucide-icon>
+                          </a>
+                        </div>
                       </div>
-                    </a>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                }
               }
-            }
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        }
       }
     </div>
   `,
